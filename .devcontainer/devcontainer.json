@@ -1,0 +1,40 @@
+{
+  "name": "riddle111-codespaces",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "forwardPorts": [5002, 5050],
+  "portsAttributes": {
+    "5002": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "5050": {
+      "label": "Frontend Dev",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install && npm run db:push",
+  "remoteUser": "node",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "mounts": [
+    "source=/workspaces/riddle111/storage,target=/workspaces/riddle111/storage,type=volume"
+  ],
+  "containerEnv": {
+    "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/riddle111",
+    "GCS_BUCKET": "riddle-app-storage",
+    "VITE_API_URL": "http://localhost:5002"
+  }
+}
